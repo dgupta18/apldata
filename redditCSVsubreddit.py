@@ -12,8 +12,9 @@ search = 'DunderMifflin'
 subreddit = reddit.subreddit(search)
 submissions = subreddit.submissions()
 for submission in submissions:
-    submission_id = submission.id
-    print(submission_id)
+    subID = submission.id
+    subTitle = submission.title
+    print(submission, subID, subTitle)
 
 #filenum = str(input('enter output file number: '))
 #filename = "redditCSVsubreddit" + filenum + ".csv"
