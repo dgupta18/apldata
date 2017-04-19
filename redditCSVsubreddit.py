@@ -8,7 +8,8 @@ reddit = praw.Reddit(client_id='ex70CcTSYUjhFg',
                      user_agent='testscript by /u/dgtest16',
                      username='dgtest16')
 
-search = 'DunderMifflin'
+# search = 'DunderMifflin'
+search = 'JHUAPL'   # hoping to create a merge conflict here
 subreddit = reddit.subreddit(search)
 submissions = subreddit.submissions()
 for submission in submissions:
