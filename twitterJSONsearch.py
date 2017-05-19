@@ -3,7 +3,6 @@
 import tweepy
 from tweepy import OAuthHandler
 import json
-import pprint
 
 consumer_key = 'DeOD1wjPQBNUjov9Fu40yO1l3'
 consumer_secret = 'kjI7TaTBNxibTTJk0EV0QbgO9myYniaEEqH6R6BkxokzmPSn02'
@@ -18,12 +17,17 @@ filenum = str(input('enter output file number: '))
 filename = "twJSONsearch" + filenum + ".json"
 print(filename)
 
-query = "theoffice"
+query = str(input("enter search term: "))
 search = tweepy.Cursor(api.search,q=query).items(100)
 
 tweetData = []
 
 for tweet in search:
+    userLocation = ""
+    try:
+        userLocation = tweet.user.location
+    except:
+        userLocation = "none"
     hashtags = []
     hashtagsArray = tweet.entities.get('hashtags')
     for ht in hashtagsArray:
@@ -32,21 +36,17 @@ for tweet in search:
     mentionsArray = tweet.entities.get('user_mentions')
     for um in mentionsArray:
         mentions[um['id_str']] = um['screen_name']
-#    tweettext = tweet.text.encode("UTF-8")
     twt = {
         'TweetID':tweet.id_str,
         'CreatedAt':str(tweet.created_at),
         'Username':tweet.user.screen_name,
         'UserID':tweet.user.id_str,
+        'UserLocation':userLocation,
         'Hashtags':hashtags,
         'MentionedUsers':mentions,
-        'Text':tweet.text,
-        'Location':tweet.user.location #if tweet.user.location is not None else "NA"
+        'Text':tweet.text.encode("UTF-8")
     }
     tweetData.append(twt)
-
-# pp = pprint.PrettyPrinter(indent=2)
-# pp.pprint(tweetData)
 
 with open(filename, 'w') as outfile:
     json.dump(tweetData, outfile)

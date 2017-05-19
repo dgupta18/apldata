@@ -21,15 +21,24 @@ with open(filename,'w', newline='') as f:
     w = csv.writer(f)
 
     f = open(filename,'w', newline='')
-    w.writerow(["Tweet ID", "Tweet Created", "Username", "User ID", "User Location", "Hashtags", "Mentions", "Text"])
+    w.writerow([
+        "Tweet ID",
+        "Tweet Created",
+        "Username",
+        "User ID",
+        "User Location",
+        "Hashtags",
+        "Mentions",
+        "Text"
+    ])
     search = tweepy.Cursor(api.home_timeline, include_entitities=True).items(180)
 
     for tweet in search:
-        tweetID = tweet.id
-        createdAt = tweet.created_at
-        username = tweet.user.screen_name
-        userID = tweet.user.id
-        userLocation = tweet.user.location if tweet.user.location is not None else "null"
+        userLocation = ""
+        try:
+            userLocation = tweet.user.location
+        except:
+            userLocation = "none"
         hashtags = []
         hashtagsArray = tweet.entities.get('hashtags')
         for ht in hashtagsArray:
@@ -38,9 +47,17 @@ with open(filename,'w', newline='') as f:
         mentionsArray = tweet.entities.get('user_mentions')
         for um in mentionsArray:s
             mentions[um['id_str']] = um['screen_name']
-        tweetText = tweet.text.encode("UTF-8")
 
-        tweet = [tweetID, createdAt, username, userID, userLocation, hashtags, mentions, tweetText]
+        tweet = [
+            tweet.id,
+            tweet.created_at,
+            tweet.user.screen_name,
+            tweet.user.id,
+            userLocation,
+            hashtags,
+            mentions,
+            tweet.text.encode("UTF-8")
+        ]
         w.writerow(tweet)
 
     f.close()

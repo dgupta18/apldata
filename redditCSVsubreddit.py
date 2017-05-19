@@ -1,4 +1,4 @@
-#reddit to xml
+#reddit to csv
 
 import praw
 import csv
@@ -11,7 +11,7 @@ reddit = praw.Reddit(client_id='ex70CcTSYUjhFg',
 
 filenum = str(input('enter output file number: '))
 filename = "rdCSVsubreddit" + filenum + ".csv"
-print(filename)
+print("filename is: " + filename)
 
 with open(filename, 'w', newline='') as f:
     writer = csv.writer(f, delimiter=',')
@@ -25,26 +25,41 @@ with open(filename, 'w', newline='') as f:
         'commentID',
         'commentText',
         'authorName',
-        # 'authorID',
+        'authorID',
     ])
 
-    search = 'JHU'
-    subreddit = reddit.subreddit(search, limit=1)
+    search = str(input('enter search term: '))
+    subreddit = reddit.subreddit(search)
     submissions = subreddit.submissions()
     for submission in submissions:
-        subID = submission.id
-        subTitle = submission.title
+        # subID = submission.id
+        # subTitle = submission.title
         comments = submission.comments
+        count = 0
         for comment in comments:
             if comment is not None:
-                commentCreated = comment.created
-                commentID = comment.id
-                commentText = comment.body.encode("UTF-8")
-                # io.open(commentBody)
-                authorName = comment.author
-                # authorID = authorName.id
-                info = [subreddit.id, subID, subTitle, commentID, commentCreated, commentText, authorName]
+                # commentText = comment.body.encode("UTF-8")
+                # authorName = comment.author
+                authorID = ""
+                try:
+                    authorID = comment.author.id
+                except:
+                    authorID = 'none'
+                info = [
+                    subreddit.id,
+                    submission.title.encode("UTF-8"),
+                    submission.id,
+                    comment.created,
+                    comment.id,
+                    comment.body.encode("UTF-8"),
+                    comment.author,
+                    authorID
+                ]
                 writer.writerow(info)
+
+                count += 1
+                if count >= 2:
+                    break
 
 f.close()
 print("Done")

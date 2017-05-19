@@ -2,23 +2,26 @@
 from tumblpy import Tumblpy
 import yaml
 
+consumer_key = "nYCRA3c4qFYvAy1j4YXlcEquEcT6w8yGVouAv9uNMlgumpV7AO"
+consumer_secret = "aJqWc3abjqXltB4YYvBukLTQnc6eUACGk6TtNh7s4QM6hWG5Ia"
+oauth_token = "zOXRlhngtkS59nTb1FWNrOXcOkzDlURYR0FKAdYFajoMHgqMzW"
+oauth_token_secret = "PPyimZwbq4t8r69is1EubtkU5EivAvAIxKIcfaCFIF6c4Yhnmd"
+
 t = Tumblpy(
-    "nYCRA3c4qFYvAy1j4YXlcEquEcT6w8yGVouAv9uNMlgumpV7AO",
-    "aJqWc3abjqXltB4YYvBukLTQnc6eUACGk6TtNh7s4QM6hWG5Ia",
-    "zOXRlhngtkS59nTb1FWNrOXcOkzDlURYR0FKAdYFajoMHgqMzW",
-    "PPyimZwbq4t8r69is1EubtkU5EivAvAIxKIcfaCFIF6c4Yhnmd"
+    consumer_key,
+    consumer_secret,
+    oauth_token,
+    oauth_token_secret
 )
 
 all_info = t.post("user/info")
 blog = all_info["user"]["blogs"][0]
-blog_name = str(blog["name"])
-blog_url = str(blog["url"])
 
 num = 0
 blogDict = {}
 postArray = []
-blogDict["blog_name"] = blog_name
-blogDict["blog_url"] = blog_url
+blogDict["blog_name"] = str(blog["name"])
+blogDict["blog_url"] = str(blog["url"])
 
 while True:
     postsAll = t.get("posts", blog_url=blog_url, params={"offset":num})
@@ -27,31 +30,19 @@ while True:
 
     for post in posts:
         postDict = {}
-
-        post_id = post["id"]
-        timestamp = post["timestamp"]
-        tags = post["tags"]
-        note_count = post["note_count"]
-
-        postDict["post_id"] = post_id
-        postDict["timestamp"] = timestamp
-        postDict["tags"] = tags
-        postDict["note_count"] = note_count
+        postDict["post_id"] = post["id"]
+        postDict["timestamp"] = post["timestamp"]
+        postDict["tags"] = post["tags"]
+        postDict["note_count"] = post["note_count"]
 
         if "trail" not in post: continue
         trailArray = []
         trail = post["trail"]
         for reblog in trail:
             trailDict = {}
-
-            reblog_name = str(reblog["blog"]["name"])
-            reblog_post_id = str(reblog["post"]["id"])
-            reblog_content_raw = str(reblog["content_raw"])
-
-            trailDict["reblog_name"] = reblog_name
-            trailDict["reblog_post_id"] = reblog_post_id
-            trailDict["reblog_content_raw"] = reblog_content_raw
-
+            trailDict["reblog_name"] = str(reblog["blog"]["name"])
+            trailDict["reblog_post_id"] = str(reblog["post"]["id"])
+            trailDict["reblog_content_raw"] = str(reblog["content_raw"])
             trailArray.append(trailDict)
         postDict["trail"] = trailArray
         postArray.append(postDict)
