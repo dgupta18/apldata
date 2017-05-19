@@ -4,10 +4,10 @@ import praw
 import csv
 import io
 
-reddit = praw.Reddit(client_id='ex70CcTSYUjhFg',
-                     client_secret='Bahi7zIZ0eEsxMjcBIVdlk-9DQI',
-                     user_agent='testscript by /u/dgtest16',
-                     username='dgtest16')
+reddit = praw.Reddit(client_id='',
+                     client_secret='',
+                     user_agent='',
+                     username='')
 
 filenum = str(input('enter output file number: '))
 filename = "rdCSVsubreddit" + filenum + ".csv"

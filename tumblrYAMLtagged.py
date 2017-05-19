@@ -2,10 +2,10 @@
 from tumblpy import Tumblpy
 import yaml
 
-consumer_key = "nYCRA3c4qFYvAy1j4YXlcEquEcT6w8yGVouAv9uNMlgumpV7AO"
-consumer_secret = "aJqWc3abjqXltB4YYvBukLTQnc6eUACGk6TtNh7s4QM6hWG5Ia"
-oauth_token = "zOXRlhngtkS59nTb1FWNrOXcOkzDlURYR0FKAdYFajoMHgqMzW"
-oauth_token_secret = "PPyimZwbq4t8r69is1EubtkU5EivAvAIxKIcfaCFIF6c4Yhnmd"
+consumer_key = ""
+consumer_secret = ""
+oauth_token = ""
+oauth_token_secret = ""
 
 t = Tumblpy(
     consumer_key,

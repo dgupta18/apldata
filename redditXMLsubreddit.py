@@ -4,10 +4,10 @@ import praw
 import xml.etree.ElementTree as et
 from xml.etree.ElementTree import ElementTree, Element, SubElement, tostring
 
-reddit = praw.Reddit(client_id='ex70CcTSYUjhFg',
-                     client_secret='Bahi7zIZ0eEsxMjcBIVdlk-9DQI',
-                     user_agent='testscript by /u/dgtest16',
-                     username='dgtest16')
+reddit = praw.Reddit(client_id='',
+                     client_secret='',
+                     user_agent='',
+                     username='')
 
 search = str(input("enter search term: "))
 subredditSearch = reddit.subreddit(search)
