@@ -14,44 +14,51 @@ blog = all_info["user"]["blogs"][0]
 blog_name = str(blog["name"])
 blog_url = str(blog["url"])
 query = "jhu"
-posts = t.get("tagged", params={"limit":20, "tag":query})
 
+num = 0
 data = {}
 postArray = []
 
-for post in posts:
-    postDict = {}
+while True:
+    posts = t.get("tagged", params={"offset":num, "tag":query})
+    numPosts = len(posts)
 
-    blog_name = post["blog_name"]
-    post_id = post["id"]
-    timestamp = post["timestamp"]
-    tags = post["tags"]
-    note_count = post["note_count"]
+    for post in posts:
+        postDict = {}
 
-    postDict["blog_name"] = blog_name
-    postDict["post_id"] = post_id
-    postDict["timestamp"] = timestamp
-    postDict["tags"] = tags
-    postDict["note_count"] = note_count
+        blog_name = post["blog_name"]
+        post_id = post["id"]
+        timestamp = post["timestamp"]
+        tags = post["tags"]
+        note_count = post["note_count"]
 
-    if "trail" not in post: continue
-    # if post["trail"] is not None:
-    trailArray = []
-    trail = post["trail"]
-    for reblog in trail:
-        trailDict = {}
-        if reblog["is_current_item"] == reblog["is_root_item"]: continue
-        reblog_name = str(reblog["blog"]["name"])
-        reblog_post_id = str(reblog["post"]["id"])
-        reblog_content_raw = str(reblog["content_raw"])
+        postDict["blog_name"] = blog_name
+        postDict["post_id"] = post_id
+        postDict["timestamp"] = timestamp
+        postDict["tags"] = tags
+        postDict["note_count"] = note_count
 
-        trailDict["reblog_name"] = reblog_name
-        trailDict["reblog_post_id"] = reblog_post_id
-        trailDict["reblog_content_raw"] = reblog_content_raw
+        if "trail" not in post: continue
+        trailArray = []
+        trail = post["trail"]
+        for reblog in trail:
+            trailDict = {}
+            if reblog["is_current_item"] == reblog["is_root_item"]: continue
+            reblog_name = str(reblog["blog"]["name"])
+            reblog_post_id = str(reblog["post"]["id"])
+            reblog_content_raw = str(reblog["content_raw"])
 
-        trailArray.append(trailDict)
-    postDict["trail"] = trailArray
-    postArray.append(postDict)
+            trailDict["reblog_name"] = reblog_name
+            trailDict["reblog_post_id"] = reblog_post_id
+            trailDict["reblog_content_raw"] = reblog_content_raw
+
+            trailArray.append(trailDict)
+        postDict["trail"] = trailArray
+        postArray.append(postDict)
+    num = num + numPosts
+    if numPosts < 20 or num >= 1000:
+        break
+
 data["posts"] = postArray
 
 filenum = str(input('enter output file number: '))
