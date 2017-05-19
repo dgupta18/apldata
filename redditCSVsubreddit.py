@@ -19,8 +19,8 @@ with open(filename, 'w', newline='') as f:
     f = open(filename,'w', newline='')
     writer.writerow([
         'subredditID',
-        'submissionID',
         'submissionTitle',
+        'submissionID',
         'commentCreated',
         'commentID',
         'commentText',

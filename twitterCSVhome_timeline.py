@@ -45,7 +45,7 @@ with open(filename,'w', newline='') as f:
             hashtags.append(ht['text'])
         mentions = {}
         mentionsArray = tweet.entities.get('user_mentions')
-        for um in mentionsArray:s
+        for um in mentionsArray:
             mentions[um['id_str']] = um['screen_name']
 
         tweet = [

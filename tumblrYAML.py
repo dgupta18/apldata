@@ -16,12 +16,14 @@ t = Tumblpy(
 
 all_info = t.post("user/info")
 blog = all_info["user"]["blogs"][0]
+blog_name = str(blog["name"])
+blog_url = str(blog["url"])
 
 num = 0
 blogDict = {}
 postArray = []
-blogDict["blog_name"] = str(blog["name"])
-blogDict["blog_url"] = str(blog["url"])
+blogDict["blog_name"] = blog_name
+blogDict["blog_url"] = blog_url
 
 while True:
     postsAll = t.get("posts", blog_url=blog_url, params={"offset":num})

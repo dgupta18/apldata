@@ -13,10 +13,6 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
-filenum = str(input('enter output file number: '))
-filename = "twJSONsearch" + filenum + ".json"
-print(filename)
-
 query = str(input("enter search term: "))
 search = tweepy.Cursor(api.search,q=query).items(100)
 
@@ -39,15 +35,18 @@ for tweet in search:
     twt = {
         'TweetID':tweet.id_str,
         'CreatedAt':str(tweet.created_at),
-        'Username':tweet.user.screen_name,
+        'Username':str(tweet.user.screen_name),
         'UserID':tweet.user.id_str,
-        'UserLocation':userLocation,
+        'UserLocation':str(userLocation),
         'Hashtags':hashtags,
         'MentionedUsers':mentions,
-        'Text':tweet.text.encode("UTF-8")
+        'Text':str(tweet.text.encode("UTF-8"))
     }
     tweetData.append(twt)
 
+filenum = str(input('enter output file number: '))
+filename = "twJSONsearch" + filenum + ".json"
+print(filename)
 with open(filename, 'w') as outfile:
     json.dump(tweetData, outfile)
 
