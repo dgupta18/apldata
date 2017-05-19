@@ -58,7 +58,7 @@ with open(filename, 'w', newline='') as f:
                 writer.writerow(info)
 
                 count += 1
-                if count >= 2:
+                if count >= 3:
                     break
 
 f.close()

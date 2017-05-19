@@ -55,7 +55,7 @@ for sub in submissions:
             authorID.text = "none"
 
     count += 1
-    if count >= 100:
+    if count >= 3:
         break
 
 filenum = str(input('enter output file number: '))
